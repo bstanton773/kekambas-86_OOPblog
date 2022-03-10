@@ -54,6 +54,39 @@ class Blog:
             print(post)
         else:
             print(f"Post with an id of {post_id} does not exist.")
+
+    def edit_post(self, post_id):
+        post = self._get_post_from_id(post_id)
+        # Check if the post exists
+        if post:
+            # Check is the user is logged in AND the logged in user is the author of the post
+            if self.current_user and self.current_user == post.author:
+                print(post)
+                edit_part = input('Would you like to edit the title, body, or quit? ')
+                while edit_part not in {'title', 'body', 'both', 'quit'}:
+                    edit_part = input('Would you like to edit the title, body, or quit? ')
+                if edit_part == 'quit':
+                    return
+                elif edit_part == 'both':
+                    new_title = input('Enter the new title: ')
+                    new_body = input('Enter the new body: ')
+                    post.update(title=new_title, body=new_body)
+                elif edit_part == 'title':
+                    new_title = input('Enter the new title: ')
+                    post.update(title=new_title)
+                elif edit_part == 'body':
+                    new_body = input('Enter the new body: ')
+                    post.update(body=new_body)
+                print(f"{post.title} has been updated")
+            # If not author but user is logged in 
+            elif self.current_user:
+                print(f"You do not have permission to update this post")
+            # If not logged in at all
+            else:
+                print('You must be logged in to perform this action')
+        # If the post does NOT exist
+        else:
+            print(f"Post with an id of {post_id} does not exist.")
         
 
 
@@ -105,6 +138,11 @@ class Post:
     def __repr__(self):
         return f"<Post {self.id}|{self.title} by {self.author}>"
 
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in {'title', 'body'}:
+                setattr(self, key, value)
+
 
 
 def run_blog():
@@ -130,10 +168,10 @@ def run_blog():
                 my_blog.view_post(post_id)
         # if there is a user logged in
         else:
-            print("1. Log Out\n2. Create a Post\n3. View All Posts\n4. View Single Post")
+            print("1. Log Out\n2. Create a Post\n3. View All Posts\n4. View Single Post\n5. Edit a Post")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1', '2', '3', '4'}:
-                to_do = input('Please choose 1, 2, 3, or 4')
+            while to_do not in {'1', '2', '3', '4', '5'}:
+                to_do = input('Please choose 1, 2, 3, 4, or 5')
             if to_do == '1':
                 my_blog.log_user_out()
             elif to_do == '2':
@@ -143,5 +181,8 @@ def run_blog():
             elif to_do == '4':
                 post_id = int(input('What is the id of the post you would like to view? '))
                 my_blog.view_post(post_id)
+            elif to_do == '5':
+                post_id = int(input('What is the id of the post you would like to edit? '))
+                my_blog.edit_post(post_id)
                 
 run_blog()   
