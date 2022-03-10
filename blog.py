@@ -41,6 +41,14 @@ class Blog:
         else:
             print('You must be logged in to perform this action')
     
+    def view_list(self):
+        if self.posts:
+            print("Here are posts you can choose from: ")
+            for post in self.posts:
+                print(f" {post.id}: {post.title} ")
+        else:
+            print("Checking ...")
+   
     def view_posts(self):
         if self.posts:
             for post in self.posts:
@@ -61,6 +69,7 @@ class Blog:
         if post:
             # Check is the user is logged in AND the logged in user is the author of the post
             if self.current_user and self.current_user == post.author:
+                print("Post to edit: ")
                 print(post)
                 edit_part = input('Would you like to edit the title, body, or quit? ')
                 while edit_part not in {'title', 'body', 'both', 'quit'}:
@@ -192,12 +201,15 @@ def run_blog():
             elif to_do == '3':
                 my_blog.view_posts()
             elif to_do == '4':
+                my_blog.view_list()
                 post_id = int(input('What is the id of the post you would like to view? '))
                 my_blog.view_post(post_id)
             elif to_do == '5':
+                my_blog.view_list()
                 post_id = int(input('What is the id of the post you would like to edit? '))
                 my_blog.edit_post(post_id)
             elif to_do == '6':
+                my_blog.view_list()
                 post_id = int(input('What is the id of the post you would like to delete? '))
                 my_blog.delete_post(post_id)
                 
