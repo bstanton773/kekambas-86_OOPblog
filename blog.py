@@ -49,7 +49,32 @@ class User:
 
 
 class Post:
-    pass
+    
+    id_counter = 1
+
+    def __init__(self, title, body, author):
+        """
+        PARAMS:
+        title  -> str
+        body   -> str
+        author -> User
+        """
+        self.id = Post.id_counter
+        Post.id_counter += 1
+        self.title = title
+        self.body = body
+        self.author = author
+
+    def __str__(self):
+        formatted_post = f"""
+        {self.title.title()}
+        By: {self.author}
+        {self.body}
+        """
+        return formatted_post
+
+    def __repr__(self):
+        return f"<Post {self.id}|{self.title} by {self.author}>"
 
 
 
