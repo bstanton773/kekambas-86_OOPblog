@@ -27,6 +27,16 @@ class Blog:
         print("You have successfully logged out.")
 
 
+    def create_a_post(self):
+        if self.current_user:
+            title = input('What is the title of your post? ').title()
+            body = input('What is the body of your post? ')
+            new_post = Post(title, body, self.current_user)
+            self.posts.append(new_post)
+            print(f"{new_post.title} has been created.")
+        else:
+            print('You must be logged in to perform this action')
+
 
 class User:
     
@@ -79,8 +89,10 @@ class Post:
 
 
 def run_blog():
+    # Create an instance of the Blog class
     my_blog = Blog()
     while True:
+        # if there is currently no user logged in
         if not my_blog.current_user:
             print("1. Sign Up\n2. Log In\n3. Quit")
             to_do = input('Which option which you like to do? ')
@@ -92,12 +104,15 @@ def run_blog():
                 my_blog.create_new_user()
             elif to_do == '2':
                 my_blog.log_user_in()
+        # if there is a user logged in
         else:
-            print("1. Log Out")
+            print("1. Log Out\n2. Create a Post")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1'}:
-                to_do = input('Please choose 1')
+            while to_do not in {'1', '2'}:
+                to_do = input('Please choose 1 or 2')
             if to_do == '1':
                 my_blog.log_user_out()
+            elif to_do == '2':
+                my_blog.create_a_post()
                 
 run_blog()   
