@@ -113,11 +113,11 @@ def run_blog():
     while True:
         # if there is currently no user logged in
         if not my_blog.current_user:
-            print("1. Sign Up\n2. Log In\n3. View All Posts\n4. Quit")
+            print("1. Sign Up\n2. Log In\n3. View All Posts\n4. View Single Post\n5. Quit")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1', '2', '3', '4'}:
-                to_do = input('Please choose either 1, 2, 3, or 4')
-            if to_do == '4':
+            while to_do not in {'1', '2', '3', '4', '5'}:
+                to_do = input('Please choose either 1, 2, 3, 4, or 5')
+            if to_do == '5':
                 break
             elif to_do == '1':
                 my_blog.create_new_user()
@@ -125,6 +125,9 @@ def run_blog():
                 my_blog.log_user_in()
             elif to_do == '3':
                 my_blog.view_posts()
+            elif to_do == '4':
+                post_id = int(input('What is the id of the post you would like to view? '))
+                my_blog.view_post(post_id)
         # if there is a user logged in
         else:
             print("1. Log Out\n2. Create a Post\n3. View All Posts\n4. View Single Post")
