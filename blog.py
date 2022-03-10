@@ -26,7 +26,6 @@ class Blog:
         self.current_user = None
         print("You have successfully logged out.")
 
-
     def create_a_post(self):
         if self.current_user:
             title = input('What is the title of your post? ').title()
@@ -36,6 +35,13 @@ class Blog:
             print(f"{new_post.title} has been created.")
         else:
             print('You must be logged in to perform this action')
+    
+    def view_posts(self):
+        if self.posts:
+            for post in self.posts:
+                print(post)
+        else:
+            print('There are currently no posts for this blog :(')
 
 
 class User:
@@ -77,7 +83,7 @@ class Post:
 
     def __str__(self):
         formatted_post = f"""
-        {self.title.title()}
+        {self.id} - {self.title.title()}
         By: {self.author}
         {self.body}
         """
@@ -94,25 +100,29 @@ def run_blog():
     while True:
         # if there is currently no user logged in
         if not my_blog.current_user:
-            print("1. Sign Up\n2. Log In\n3. Quit")
+            print("1. Sign Up\n2. Log In\n3. View All Posts\n4. Quit")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1', '2', '3'}:
-                to_do = input('Please choose either 1, 2, or 3')
-            if to_do == '3':
+            while to_do not in {'1', '2', '3', '4'}:
+                to_do = input('Please choose either 1, 2, 3, or 4')
+            if to_do == '4':
                 break
             elif to_do == '1':
                 my_blog.create_new_user()
             elif to_do == '2':
                 my_blog.log_user_in()
+            elif to_do == '3':
+                my_blog.view_posts()
         # if there is a user logged in
         else:
-            print("1. Log Out\n2. Create a Post")
+            print("1. Log Out\n2. Create a Post\n3. View All Posts")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1', '2'}:
-                to_do = input('Please choose 1 or 2')
+            while to_do not in {'1', '2', '3'}:
+                to_do = input('Please choose 1, 2, or 3')
             if to_do == '1':
                 my_blog.log_user_out()
             elif to_do == '2':
                 my_blog.create_a_post()
+            elif to_do == '3':
+                my_blog.view_posts()
                 
 run_blog()   
