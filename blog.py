@@ -3,6 +3,11 @@ class Blog:
         self.users = []
         self.posts = []
         self.current_user = None
+
+    def _get_post_from_id(self, post_id):
+        for post in self.posts:
+            if post.id == post_id:
+                return post
         
     def create_new_user(self):
         username = input('Please enter a username ')
@@ -42,6 +47,14 @@ class Blog:
                 print(post)
         else:
             print('There are currently no posts for this blog :(')
+
+    def view_post(self, post_id):
+        post = self._get_post_from_id(post_id)
+        if post:
+            print(post)
+        else:
+            print(f"Post with an id of {post_id} does not exist.")
+        
 
 
 class User:
@@ -114,15 +127,18 @@ def run_blog():
                 my_blog.view_posts()
         # if there is a user logged in
         else:
-            print("1. Log Out\n2. Create a Post\n3. View All Posts")
+            print("1. Log Out\n2. Create a Post\n3. View All Posts\n4. View Single Post")
             to_do = input('Which option which you like to do? ')
-            while to_do not in {'1', '2', '3'}:
-                to_do = input('Please choose 1, 2, or 3')
+            while to_do not in {'1', '2', '3', '4'}:
+                to_do = input('Please choose 1, 2, 3, or 4')
             if to_do == '1':
                 my_blog.log_user_out()
             elif to_do == '2':
                 my_blog.create_a_post()
             elif to_do == '3':
                 my_blog.view_posts()
+            elif to_do == '4':
+                post_id = int(input('What is the id of the post you would like to view? '))
+                my_blog.view_post(post_id)
                 
 run_blog()   
